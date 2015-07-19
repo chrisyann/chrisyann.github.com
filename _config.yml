@@ -3,11 +3,11 @@
 # ----------------------- #
 
 url: http://chrisyann.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
-simple_search: https://www.google.com/search
-description:
+title: 图像算法
+subtitle: 关注机器视觉、深度学习
+author: Chris Yann
+simple_search: https://www.baidu.com/
+description: 专注于最新的视觉技术研究，以及实用的工业应用
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
