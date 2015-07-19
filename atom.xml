@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Chris Yann]]></title>
-  <link href="http://chrisyann.github.com/atom.xml" rel="self"/>
-  <link href="http://chrisyann.github.com/"/>
-  <updated>2015-07-19T21:08:30+08:00</updated>
-  <id>http://chrisyann.github.com/</id>
+  <title><![CDATA[图像算法]]></title>
+  <link href="http://chrisyann.github.io/atom.xml" rel="self"/>
+  <link href="http://chrisyann.github.io/"/>
+  <updated>2015-07-19T21:24:57+08:00</updated>
+  <id>http://chrisyann.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Chris Yann]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
