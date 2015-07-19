@@ -4,7 +4,7 @@
   <title><![CDATA[Chris Yann]]></title>
   <link href="http://chrisyann.github.io/atom.xml" rel="self"/>
   <link href="http://chrisyann.github.io/"/>
-  <updated>2015-07-20T01:38:54+08:00</updated>
+  <updated>2015-07-20T02:29:22+08:00</updated>
   <id>http://chrisyann.github.io/</id>
   <author>
     <name><![CDATA[Chris Yann]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Algorithms]]></title>
+    <link href="http://chrisyann.github.io/blog/2015/07/20/algorithms/"/>
+    <updated>2015-07-20T01:57:34+08:00</updated>
+    <id>http://chrisyann.github.io/blog/2015/07/20/algorithms</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Computer Vision]]></title>
+    <link href="http://chrisyann.github.io/blog/2015/07/20/computer-vision/"/>
+    <updated>2015-07-20T01:57:18+08:00</updated>
+    <id>http://chrisyann.github.io/blog/2015/07/20/computer-vision</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deep Learning]]></title>
+    <link href="http://chrisyann.github.io/blog/2015/07/20/deep-learning/"/>
+    <updated>2015-07-20T01:57:03+08:00</updated>
+    <id>http://chrisyann.github.io/blog/2015/07/20/deep-learning</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[First Blog]]></title>
@@ -22,11 +49,9 @@
 layout: post
 title: &ldquo;写在开篇&rdquo;
 date: 2015-07-20 01:08:42 +0800
-comments: true</p>
-
-<h2>categories: </h2>
-
-<p>今天用octopress搭建了自己的博客，很高兴和网友们交流。
+comments: true
+categories:
+&mdash;今天用octopress搭建了自己的博客，很高兴和网友们交流。
 &lt;!-more-></p>
 ]]></content>
   </entry>
