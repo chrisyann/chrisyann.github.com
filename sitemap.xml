@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://chrisyann.github.io/blog/2015/07/20/algorithms/</loc>
+    <loc>http://chrisyann.me/blog/2015/07/20/algorithms/</loc>
     <lastmod>2015-07-20T01:57:34+08:00</lastmod>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/blog/2015/07/20/computer-vision/</loc>
+    <loc>http://chrisyann.me/blog/2015/07/20/computer-vision/</loc>
     <lastmod>2015-07-20T01:57:18+08:00</lastmod>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/blog/2015/07/20/deep-learning/</loc>
+    <loc>http://chrisyann.me/blog/2015/07/20/deep-learning/</loc>
     <lastmod>2015-07-20T01:57:03+08:00</lastmod>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/blog/2015/07/20/first-blog/</loc>
+    <loc>http://chrisyann.me/blog/2015/07/20/first-blog/</loc>
     <lastmod>2015-07-20T01:08:42+08:00</lastmod>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/blog/archives/</loc>
+    <loc>http://chrisyann.me/blog/archives/</loc>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/</loc>
+    <loc>http://chrisyann.me/</loc>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/about/</loc>
+    <loc>http://chrisyann.me/about/</loc>
   </url>
   <url>
-    <loc>http://chrisyann.github.io/blog/categories/dump/</loc>
+    <loc>http://chrisyann.me/blog/categories/dump/</loc>
   </url>
 </urlset>
