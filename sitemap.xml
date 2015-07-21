@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://chrisyann.me/blog/2015/07/21/tmp2/</loc>
+    <lastmod>2015-07-21T17:16:28+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://chrisyann.me/blog/2015/07/21/tmp/</loc>
+    <lastmod>2015-07-21T15:50:53+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://chrisyann.me/blog/2015/07/20/test/</loc>
     <lastmod>2015-07-20T23:03:17+08:00</lastmod>
   </url>
@@ -21,6 +29,10 @@
     <lastmod>2015-07-20T01:08:42+08:00</lastmod>
   </url>
   <url>
+    <loc>http://chrisyann.me/blog/2015/07/18/anr-in-android/</loc>
+    <lastmod>2015-07-18T17:53:00+08:00</lastmod>
+  </url>
+  <url>
     <loc>http://chrisyann.me/blog/archives/</loc>
   </url>
   <url>
@@ -28,6 +40,12 @@
   </url>
   <url>
     <loc>http://chrisyann.me/about/</loc>
+  </url>
+  <url>
+    <loc>http://chrisyann.me/blog/categories/android/</loc>
+  </url>
+  <url>
+    <loc>http://chrisyann.me/blog/categories/anr/</loc>
   </url>
   <url>
     <loc>http://chrisyann.me/blog/categories/dump/</loc>

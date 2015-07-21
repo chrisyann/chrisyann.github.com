@@ -1,98 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Chris Yann's BLOG]]></title>
-  <link href="http://chrisyann.me/atom.xml" rel="self"/>
-  <link href="http://chrisyann.me/"/>
-  <updated>2015-07-21T20:03:25+08:00</updated>
-  <id>http://chrisyann.me/</id>
-  <author>
-    <name><![CDATA[Chris Yann]]></name>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>说说Android中的ANR - Chris Yann's BLOG</title>
+  <meta name="author" content="Chris Yann">
+
+  
+  <meta name="description" content="有过Android开发经历的人都不会对ANR陌生，它和崩溃一样是程序设计的问题。本文将以较为深入的视角来介绍什么是ANR，出现场景，如何避免以及如何定位分析ANR,希望可以帮助大家在编写程序时有所帮助。 什么是ANR ANR全称Application Not Responding， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://chrisyann.me/blog/2015/07/18/anr-in-android/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Chris Yann's BLOG" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Chris Yann's BLOG</a></h1>
+  
+  <h2>关注机器视觉、深度学习</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.baidu.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="chrisyann.me">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
     
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  
-  <entry>
-    <title type="html"><![CDATA[Tmp2]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/21/tmp2/"/>
-    <updated>2015-07-21T17:16:28+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/21/tmp2</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tmp]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/21/tmp/"/>
-    <updated>2015-07-21T15:50:53+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/21/tmp</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Test]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/20/test/"/>
-    <updated>2015-07-20T23:03:17+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/20/test</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Algorithms]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/20/algorithms/"/>
-    <updated>2015-07-20T01:57:34+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/20/algorithms</id>
-    <content type="html"><![CDATA[<h1>第一章</h1>
-
-<h2>第一节</h2>
-
-<p>上半年，在楼市整体由冬入春的大环境下，商业地产的市场表现也渐入佳境。四川中原地产楼市半年刊数据显示，上半年，主城商铺成交主要集中在三环至绕城区间，市场占比44.3%，这些区域基本为城市新区，属于商业重新构架的区域；其次是二环至三环，约占27.1%；从方位来看，城南依旧为商铺集中成交区，达到46.5%的成交占比，城南商业持续发力。</p>
-
-<!--more-->
+      <h1 class="entry-title">说说Android中的ANR</h1>
+    
+    
+      <p class="meta">
+        
 
 
-<p>在城南商业中，成都银泰城可谓一枝独秀，以其傲娇的数据和独特的商业基因在天府新区核心地段中大放异彩。近日，由《华西都市报》、成都银泰城联合主办的川商电商之路大讲堂在成都银泰城强势启动。在阿里巴巴牵手银泰商业之后，没有谁比之更有资格谈电商转型；在阿里巴巴西部基地入驻成都银泰城之后，没有谁比之更具有互联网+时代的财富吸引力。一场川商如何玩电商、如何在电商发展之路攫取最大财富的大讲堂正在成都银泰城如火如荼地举行。
-电商基因在银泰城“突变”
-银泰集团的电商基因可以说是从“胎”里带出来的。银泰集团作为主业之一的商业零售，以“银泰商业”(HK.01833)为代表，在“多业态、多品牌”发展战略下，在稳固百货优势的同时，全力推进城市综合体、购物中心、电商平台的发展，已形成了银泰百货、银泰购物中心、银泰网三大核心业态鼎足齐进之势，一直引领着国内流行时尚领域零售企业的发展。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Computer Vision]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/20/computer-vision/"/>
-    <updated>2015-07-20T01:57:18+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/20/computer-vision</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deep Learning]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/20/deep-learning/"/>
-    <updated>2015-07-20T01:57:03+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/20/deep-learning</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[写在开篇]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/20/first-blog/"/>
-    <updated>2015-07-20T01:08:42+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/20/first-blog</id>
-    <content type="html"><![CDATA[<p>今天用octopress搭建了自己的博客，很高兴和网友们交流。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[说说Android中的ANR]]></title>
-    <link href="http://chrisyann.me/blog/2015/07/18/anr-in-android/"/>
-    <updated>2015-07-18T17:53:00+08:00</updated>
-    <id>http://chrisyann.me/blog/2015/07/18/anr-in-android</id>
-    <content type="html"><![CDATA[<p>有过Android开发经历的人都不会对ANR陌生，它和崩溃一样是程序设计的问题。本文将以较为深入的视角来介绍什么是ANR，出现场景，如何避免以及如何定位分析ANR,希望可以帮助大家在编写程序时有所帮助。</p>
+
+
+<time class='entry-date' datetime='2015-07-18T17:53:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:53 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>有过Android开发经历的人都不会对ANR陌生，它和崩溃一样是程序设计的问题。本文将以较为深入的视角来介绍什么是ANR，出现场景，如何避免以及如何定位分析ANR,希望可以帮助大家在编写程序时有所帮助。</p>
 
 <!--more-->
 
@@ -290,7 +284,142 @@
 <li><a href="http://developer.android.com/intl/zh-cn/training/articles/perf-anr.html">Keeping Your App Responsive</a></li>
 </ul>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">Chris Yann</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-18T17:53:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:53 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/anr/'>anr</a>
+  
+</span>
+
+
+    </p>
+    
+      ﻿<div class="sharing">
+<!--   
+  
+   -->
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/20/first-blog/" title="Next Post: 写在开篇">写在开篇 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+   <!-- 多说评论框 start -->
+<div class="ds-thread" data-thread-key="/blog/2015/07/18/anr-in-android" data-title="说说Android中的ANR" data-url="http://chrisyann.me/blog/2015/07/18/anr-in-android/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"chrisyann"};
+    (function() {
+
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+     })();
+ </script>
+ <!-- 多说公共JS代码 end -->
+  </section>
+ 
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/android/'>android (1)</a></li>
+<li class='category'><a href='/blog/categories/anr/'>anr (1)</a></li>
+<li class='category'><a href='/blog/categories/dump/'>dump (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>最近更新</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/07/21/tmp2/">Tmp2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/21/tmp/">Tmp</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/test/">Test</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/algorithms/">Algorithms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/20/computer-vision/">Computer Vision</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Chris Yann -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
