@@ -6,5 +6,3 @@ comments: true
 categories: 
 ---
 今天用octopress搭建了自己的博客，很高兴和网友们交流。
-<!-more->
-fuck you!
