@@ -8,6 +8,7 @@ categories: Pyspider Python 电商 抓取
 #任务介绍  
 现在电商发展异常火热，电商所拥有的商品数据价值不言而喻。现有曝光率较高的电商有淘宝、天猫、京东、明星衣橱、唯品会、蘑菇街、美丽说等。通过数据分析，我们可以产生用户偏好模型来帮助网站更好的推荐商品、帮助店家来进行获得更多的收益，甚至于帮助学术界进行算法创新。
 下面，我们将以蘑菇街为对象，来设计与编写相应的抓取器。
+<!--more-->
 #已有工具  
 找到一个合适的抓取工具是十分重要的。一般会有以下的考虑：  
 1.支持JS渲染：电商网站一般会需要对商品列表进行动态加载；  
@@ -148,4 +149,4 @@ class Handler(BaseHandler):
 
 #结果
 在抓取demo页面下，有个Results按钮，点击就能进入下载结果展示页面。最后，可以通过点击"JSON"、"URL-JSON"、"CSV"三个按钮下载所需格式的结果。
-<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79782538.jpg?attname=&e=1437653746&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:YYIEshuELMyXASOm3R3hS04M6CY" width="800px">
+<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79782538.jpg?attname=&e=1437653746&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:YYIEshuELMyXASOm3R3hS04M6CY" width="800px">  
