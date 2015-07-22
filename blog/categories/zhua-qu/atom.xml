@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 抓取 | Chris Yann's BLOG]]></title>
   <link href="http://chrisyann.me/blog/categories/zhua-qu/atom.xml" rel="self"/>
   <link href="http://chrisyann.me/"/>
-  <updated>2015-07-22T20:34:16+08:00</updated>
+  <updated>2015-07-22T20:44:27+08:00</updated>
   <id>http://chrisyann.me/</id>
   <author>
     <name><![CDATA[Chris Yann]]></name>
@@ -35,15 +35,15 @@
 
 <p>通过<a href="http://www.github.com">github</a>搜索关键词"spider"，找到最热的pyspider；幸运的是，这是一个完全符合上述要求的爬虫，不仅有健全的<a href="http://docs.pyspider.org/en/latest/">英文使用文档</a>，而且作者Binux在<a href="http://blog.binux.me/">博客</a>中也经常回复使用者的疑问。</p>
 
-<p>这里不展开讲在自己本地如何配置pyspider，按照作者提供的方式是能够完全独立搭建的。同时，Binux嗨提供了一个自己搭建的爬虫服务器，能够支持大量网页的抓取与分析，并且集成了IP池：<a href="http://demo.pyspider.org">demo.pyspider.org</a></p>
+<p>这里不展开讲在自己本地如何配置pyspider，按照作者提供的方式是能够完全独立搭建的。同时，Binux还提供了一个自己搭建的爬虫服务器，能够支持大量网页的抓取与分析，并且集成了IP池：<a href="http://demo.pyspider.org">demo.pyspider.org</a></p>
 
 <p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/64856224.jpg?attname=&e=1437650786&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:BmgjhWkc9wOzTyJzX6zODfcI3Lo" width = "800px"></p>
 
 <p>这个网站的使用步骤如下：<br/>
 1.通过"Create"建立一个Project，例如取名"demo";<br/>
-2.在创建的"Project name"下点击创建的"demo"，病编写相应的抓取代码;<br/>
+2.在创建的"Project name"下点击创建的"demo"，并编写相应的抓取代码;<br/>
 3.通过点击"run"按钮进行调试，直到成功抓取到所需网页字段；然后"save"代码;<br/>
-4.定位demo project所在行(如下)，将<strong style="background:orange"><font color="white">TODO</font></strong>改成<strong style="background:green"><font color="white">RUNNING</font></strong>；再在Actions下点击Run按钮；然后修改group为lock，锁定自己的project，防止别人更改；之后就开始抓取了。</p>
+4.定位"demo" project所在行(如下)，将<strong style="background:orange"><font color="white">TODO</font></strong>改成<strong style="background:green"><font color="white">RUNNING</font></strong>；再在Actions下点击Run按钮；然后修改group为lock，锁定自己的project，防止别人更改；之后就开始抓取了。</p>
 
 <p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/18175455.jpg?attname=&e=1437651527&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:fb0glKWPAuY6FjkWAy2g9kIPriU" width="800px"></p>
 
