@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Chris Yann's BLOG]]></title>
   <link href="http://chrisyann.me/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://chrisyann.me/"/>
-  <updated>2015-07-22T20:22:40+08:00</updated>
+  <updated>2015-07-22T20:24:25+08:00</updated>
   <id>http://chrisyann.me/</id>
   <author>
     <name><![CDATA[Chris Yann]]></name>
@@ -22,6 +22,8 @@
 
 <p>现在电商发展异常火热，电商所拥有的商品数据价值不言而喻。现有曝光率较高的电商有淘宝、天猫、京东、明星衣橱、唯品会、蘑菇街、美丽说等。通过数据分析，我们可以产生用户偏好模型来帮助网站更好的推荐商品、帮助店家来进行获得更多的收益，甚至于帮助学术界进行算法创新。
 下面，我们将以蘑菇街为对象，来设计与编写相应的抓取器。</p>
+
+<p><!--more-></p>
 
 <h1>已有工具</h1>
 
