@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Pyspider, | Chris Yann's BLOG]]></title>
+  <link href="http://chrisyann.me/blog/categories/pyspider/atom.xml" rel="self"/>
+  <link href="http://chrisyann.me/"/>
+  <updated>2015-07-22T16:44:38+08:00</updated>
+  <id>http://chrisyann.me/</id>
+  <author>
+    <name><![CDATA[Chris Yann]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[利用Pysider抓取电商数据]]></title>
+    <link href="http://chrisyann.me/blog/2015/07/20/Spider/"/>
+    <updated>2015-07-20T01:57:34+08:00</updated>
+    <id>http://chrisyann.me/blog/2015/07/20/Spider</id>
+    <content type="html"><![CDATA[<h1>任务介绍</h1>
+
+<p>现在电商发展异常火热，电商所拥有的商品数据价值不言而喻。现有曝光率较高的电商有淘宝、天猫、京东、明星衣橱、唯品会、蘑菇街、美丽说等。通过数据分析，我们可以产生用户偏好模型来帮助网站更好的推荐商品、帮助店家来进行获得更多的收益，甚至于帮助学术界进行算法创新。
+下面，我们将以蘑菇街为对象，来设计与编写相应的抓取器。</p>
+
+<h1>已有工具</h1>
+
+<p>找到一个合适的抓取工具是十分重要的。一般会有以下的考虑：<br/>
+1.支持JS渲染：电商网站一般会需要对商品列表进行动态加载；<br/>
+2.支持IP池：防止同一IP多次抓取被屏蔽</p>
+
+<h1>方法实现</h1>
+
+<h1>结果</h1>
+]]></content>
+  </entry>
+  
+</feed>
