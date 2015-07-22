@@ -92,7 +92,8 @@
 <p>现在电商发展异常火热，电商所拥有的商品数据价值不言而喻。现有曝光率较高的电商有淘宝、天猫、京东、明星衣橱、唯品会、蘑菇街、美丽说等。通过数据分析，我们可以产生用户偏好模型来帮助网站更好的推荐商品、帮助店家来进行获得更多的收益，甚至于帮助学术界进行算法创新。
 下面，我们将以蘑菇街为对象，来设计与编写相应的抓取器。</p>
 
-<p><!--more-></p>
+<!--more-->
+
 
 <h1>已有工具</h1>
 
@@ -123,7 +124,8 @@
 <a href="http://www.mogujie.com/book/clothing/18057">http://www.mogujie.com/book/clothing/18057</a><br/>
 <img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79436268.jpg?attname=&e=1437652353&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:e4FwAPMEgx2NQ-vZRcKL2kBz5t0" width="800px"></p>
 
-<p>通过chrome的审查元素分析，此商品列表会给出25个默认的商品（包括缩图与描述）；通过鼠标滚轮下滑，可以触发JS进行渲染，能够展现全部200多个商品；因此，我们需要在pyspider的代码里打开图像加载开关，启用phantomjs，以及用JS模仿鼠标滚轮：
+<p>通过chrome的审查元素分析，此商品列表会给出25个默认的商品（包括缩图与描述）；通过鼠标滚轮下滑，可以触发JS进行渲染，能够展现全部200多个商品；因此，我们需要在pyspider的代码里打开图像加载开关，启用phantomjs，以及用JS模仿鼠标滚轮：</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -146,10 +148,13 @@
 </span><span class='line'><span class="s">                           }</span>
 </span><span class='line'><span class="s">                           &quot;&quot;&quot;</span><span class="p">,</span>
 </span><span class='line'>     <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">list_page</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure><br/>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
 下面给出抓取每一个商品详情页的pyspider代码：</p>
 
-<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -241,11 +246,11 @@
 <span class='line-number'>90</span>
 <span class='line-number'>91</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
-</span><span class='line'><span class="c"># -<em>- encoding: utf-8 -</em>-</span>
+</span><span class='line'><span class="c"># -*- encoding: utf-8 -*-</span>
 </span><span class='line'><span class="c"># Created on 2015-07-08 01:00:21</span>
 </span><span class='line'><span class="c"># Project: mogujie_v1</span>
 </span><span class='line'><span class="kn">import</span> <span class="nn">re</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">pyspider.libs.base_handler</span> <span class="kn">import</span> <span class="o"><em></span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pyspider.libs.base_handler</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span class='line'>
 </span><span class='line'><span class="c">#document.body.scrollHeight</span>
 </span><span class='line'><span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">BaseHandler</span><span class="p">):</span>
@@ -253,8 +258,8 @@
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;18057&#39;</span><span class="p">]</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;<a href="http://www.mogujie.com/book/clothing/">http://www.mogujie.com/book/clothing/</a>{cate}/{id}/pop?ad=0&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="nd">@every</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">24</span> <span class="o"></em></span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;http://www.mogujie.com/book/clothing/{cate}/{id}/pop?ad=0&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="nd">@every</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">def</span> <span class="nf">on_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span class='line'>        <span class="k">for</span> <span class="n">ls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
 </span><span class='line'>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
@@ -270,20 +275,20 @@
 </span><span class='line'><span class="s">                           &quot;&quot;&quot;</span><span class="p">,</span>
 </span><span class='line'>     <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">list_page</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o"><em></span> <span class="mi">24</span> <span class="o"></em></span> <span class="mi">60</span> <span class="o"><em></span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">def</span> <span class="nf">list_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
 </span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;<a href="http://www.mogujie.com/detail/\w+&amp;quot;">http://www.mogujie.com/detail/\w+&amp;quot;</a></span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;http://www.mogujie.com/detail/\w+&quot;</span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
 </span><span class='line'>                <span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">,</span><span class="n">fetch_type</span><span class="o">=</span><span class="s">&#39;js&#39;</span><span class="p">,</span> <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail_page</span><span class="p">)</span>
-</span><span class='line'>            <span class="c">#if re.match(&quot;<a href="http://&amp;quot;">http://&amp;quot;</a>)</span>
+</span><span class='line'>            <span class="c">#if re.match(&quot;http://&quot;)</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o"></em></span> <span class="mi">24</span> <span class="o"><em></span> <span class="mi">60</span> <span class="o"></em></span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">def</span> <span class="nf">index_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
 </span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 </span><span class='line'>            <span class="c">#print each.attr.href</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;<a href="http://www.mogujie.com/detail/\w+&amp;quot;">http://www.mogujie.com/detail/\w+&amp;quot;</a></span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;http://www.mogujie.com/detail/\w+&quot;</span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
 </span><span class='line'>                <span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">,</span><span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail_page</span><span class="p">)</span>
-</span><span class='line'>            <span class="c">#if re.match(&quot;<a href="http://&amp;quot;">http://&amp;quot;</a>)</span>
+</span><span class='line'>            <span class="c">#if re.match(&quot;http://&quot;)</span>
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -331,7 +336,8 @@
 </span><span class='line'>            <span class="s">&quot;fav_num&quot;</span><span class="p">:</span> <span class="n">fav_num</span><span class="p">,</span>
 </span><span class='line'>            <span class="s">&quot;stuff&quot;</span><span class="p">:</span> <span class="n">stuff</span><span class="p">,</span>
 </span><span class='line'>        <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h1>结果</h1>
 
