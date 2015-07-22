@@ -4,7 +4,7 @@
   <title><![CDATA[Chris Yann's BLOG]]></title>
   <link href="http://chrisyann.me/atom.xml" rel="self"/>
   <link href="http://chrisyann.me/"/>
-  <updated>2015-07-22T16:44:38+08:00</updated>
+  <updated>2015-07-22T17:28:25+08:00</updated>
   <id>http://chrisyann.me/</id>
   <author>
     <name><![CDATA[Chris Yann]]></name>
@@ -54,7 +54,9 @@
 
 <p>找到一个合适的抓取工具是十分重要的。一般会有以下的考虑：<br/>
 1.支持JS渲染：电商网站一般会需要对商品列表进行动态加载；<br/>
-2.支持IP池：防止同一IP多次抓取被屏蔽</p>
+2.支持IP池：防止同一IP多次抓取被屏蔽<br/>
+3.支持可视化：方便调试与分析每一个步骤<br/>
+我通过<a href="www.github.com">github</a></p>
 
 <h1>方法实现</h1>
 
