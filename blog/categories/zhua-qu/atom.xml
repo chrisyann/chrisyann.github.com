@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 抓取 | Chris Yann's BLOG]]></title>
   <link href="http://chrisyann.me/blog/categories/zhua-qu/atom.xml" rel="self"/>
   <link href="http://chrisyann.me/"/>
-  <updated>2015-07-22T17:28:25+08:00</updated>
+  <updated>2015-07-22T20:22:40+08:00</updated>
   <id>http://chrisyann.me/</id>
   <author>
     <name><![CDATA[Chris Yann]]></name>
@@ -28,12 +28,143 @@
 <p>找到一个合适的抓取工具是十分重要的。一般会有以下的考虑：<br/>
 1.支持JS渲染：电商网站一般会需要对商品列表进行动态加载；<br/>
 2.支持IP池：防止同一IP多次抓取被屏蔽<br/>
-3.支持可视化：方便调试与分析每一个步骤<br/>
-我通过<a href="www.github.com">github</a></p>
+3.支持可视化：方便调试与分析每一个步骤</p>
+
+<p>通过<a href="http://www.github.com">github</a>搜索关键词"spider"，找到最热的pyspider；幸运的是，这是一个完全符合上述要求的爬虫，不仅有健全的<a href="http://docs.pyspider.org/en/latest/">英文使用文档</a>，而且作者Binux在<a href="http://blog.binux.me/">博客</a>中也经常回复使用者的疑问。</p>
+
+<p>这里不展开讲在自己本地如何配置pyspider，按照作者提供的方式是能够完全独立搭建的。同时，Binux嗨提供了一个自己搭建的爬虫服务器，能够支持大量网页的抓取与分析，并且集成了IP池：<a href="http://demo.pyspider.org">demo.pyspider.org</a></p>
+
+<p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/64856224.jpg?attname=&e=1437650786&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:BmgjhWkc9wOzTyJzX6zODfcI3Lo" width = "800px"></p>
+
+<p>这个网站的使用步骤如下：<br/>
+1.通过"Create"建立一个Project，例如取名"demo";<br/>
+2.在创建的"Project name"下点击创建的"demo"，病编写相应的抓取代码;<br/>
+3.通过点击"run"按钮进行调试，直到成功抓取到所需网页字段；然后"save"代码;<br/>
+4.定位demo project所在行(如下)，将<strong style="background:orange"><font color="white">TODO</font></strong>改成<strong style="background:green"><font color="white">RUNNING</font></strong>；再在Actions下点击Run按钮；然后修改group为lock，锁定自己的project，防止别人更改；之后就开始抓取了。</p>
+
+<p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/18175455.jpg?attname=&e=1437651527&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:fb0glKWPAuY6FjkWAy2g9kIPriU" width="800px"></p>
+
+<p>综上，如果我们使用pyspider作者Binux提供的服务，我们只要学会写抓取代码就行了。</p>
 
 <h1>方法实现</h1>
 
+<p>Pyspider能够很好地支持python编程。例如：我们需要获得<a href="http://www.mogujie.com/">蘑菇街</a>一个页面的信息，如以下的商品页面：<br/>
+<a href="http://www.mogujie.com/book/clothing/18057">http://www.mogujie.com/book/clothing/18057</a><br/>
+<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79436268.jpg?attname=&e=1437652353&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:e4FwAPMEgx2NQ-vZRcKL2kBz5t0" width="800px"></p>
+
+<p>通过chrome的审查元素分析，此商品列表会给出25个默认的商品（包括缩图与描述）；通过鼠标滚轮下滑，可以触发JS进行渲染，能够展现全部200多个商品；因此，我们需要在pyspider的代码里打开图像加载开关，启用phantomjs，以及用JS模仿鼠标滚轮：
+<code>python
+self.crawl(self.url.format(cate=ls,id=i+1),
+                           fetch_type='js',js_script="""
+                           function() {
+                               function test() {
+                                   window.scrollTo(0,document.body.scrollHeight);
+                                   window.setTimeout(test,100);
+                               }
+                               window.setTimeout(test,100);
+                           }
+                           """,
+     load_images=True, callback=self.list_page)
+</code><br/>
+下面给出抓取每一个商品详情页的pyspider代码：</p>
+
+<pre><code class="python">#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# Created on 2015-07-08 01:00:21
+# Project: mogujie_v1
+import re
+from pyspider.libs.base_handler import *
+
+#document.body.scrollHeight
+class Handler(BaseHandler):
+    crawl_config = {
+    }
+    list = ['18057']
+
+    url = """http://www.mogujie.com/book/clothing/{cate}/{id}/pop?ad=0"""
+    @every(minutes=24 * 60)
+    def on_start(self):
+        for ls in self.list:
+            for i in range(100):
+                self.crawl(self.url.format(cate=ls,id=i+1), 
+                           fetch_type='js',js_script="""
+                           function() {
+                               function test() {
+                                   window.scrollTo(0,document.body.scrollHeight);
+                                   window.setTimeout(test,100);
+                               }
+                               window.setTimeout(test,100);
+                           }
+                           """,
+     load_images=True, callback=self.list_page)
+
+    @config(age=10 * 24 * 60 * 60)
+    def list_page(self, response):
+        for each in response.doc('a[href^="http"]').items():
+            if re.match("http://www.mogujie.com/detail/\w+", each.attr.href):
+                self.crawl(each.attr.href,fetch_type='js', load_images=True, callback=self.detail_page)
+            #if re.match("http://")
+
+    @config(age=10 * 24 * 60 * 60)
+    def index_page(self, response):
+        for each in response.doc('a[href^="http"]').items():
+            #print each.attr.href
+            if re.match("http://www.mogujie.com/detail/\w+", each.attr.href):
+                self.crawl(each.attr.href,load_images=True, callback=self.detail_page)
+            #if re.match("http://")
+
+
+    @config(priority=2)
+    def detail_page(self, response):
+        small_dic = {}
+        preload_dic = {}
+        price = -1
+        comment_score = -1
+        sale = -1
+        comment_num = -1
+        fav_num = -1
+        txt = None
+        right_dic = {}
+        stuff = []
+        desc = -1
+        price = response.doc("span#J_NowPrice.price-n").text()
+        comment_score = response.doc("li.comment-score&gt;p&gt;span&gt;b.num").text()
+        sale = response.doc("li.sale&gt;p&gt;b.J_SaleNum.num").text()
+        comment_num = response.doc("li.comment-num&gt;p&gt;b.num").text()
+        fav_num = response.doc("span.fav-num").text()
+        desc = response.doc("div.content&gt;div.desc&gt;p.text").text()
+
+        for each in response.doc('html &gt; body &gt; div.shop-detail &gt; div.detail-goods.clearfix &gt; div.goods-left &gt; div.goods-box.clearfix &gt; div#J_GoodsImg.goods-img.fl &gt; div.big-img &gt; img#J_BigImg ').items():
+            txt = each.attr.alt
+        for each in response.doc("div.box &gt; div.list &gt; ul &gt; li &gt; img").items():
+            small_dic[each.attr.src] = 1
+        for each in response.doc("img.img-pre-lazyload").items():
+            preload_dic[each.attr.src] = 1
+        for each in response.doc("div#J_ModuleLook.goods-right.ex-module&gt;div.list&gt;div.box&gt;ul&gt;li&gt;a&gt;img").items():
+            right_dic[each.attr.src] = 1
+        for each in response.doc("div.stuff&gt;table&gt;tbody&gt;tr&gt;td").items():
+            stuff.append(each.text())
+        return {
+            "url": response.url,
+            "title": response.doc('title').text(),
+            "txt": txt,
+            "desc": desc,
+            "right_dic": right_dic,
+            "price": price,
+            "small": small_dic,
+            "reload": preload_dic,
+            "comment_score": comment_score,
+            "sale": sale,
+            "comment_num": comment_num,
+            "fav_num": fav_num,
+            "stuff": stuff,
+        }
+</code></pre>
+
 <h1>结果</h1>
+
+<p>在抓取demo页面下，有个Results按钮，点击就能进入下载结果展示页面。最后，可以通过点击"JSON"、"URL-JSON"、"CSV"三个按钮下载所需格式的结果。
+<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79782538.jpg?attname=&e=1437653746&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:YYIEshuELMyXASOm3R3hS04M6CY" width="800px"></p>
 ]]></content>
   </entry>
   

@@ -97,12 +97,249 @@
 <p>找到一个合适的抓取工具是十分重要的。一般会有以下的考虑：<br/>
 1.支持JS渲染：电商网站一般会需要对商品列表进行动态加载；<br/>
 2.支持IP池：防止同一IP多次抓取被屏蔽<br/>
-3.支持可视化：方便调试与分析每一个步骤<br/>
-我通过<a href="www.github.com">github</a></p>
+3.支持可视化：方便调试与分析每一个步骤</p>
+
+<p>通过<a href="http://www.github.com">github</a>搜索关键词"spider"，找到最热的pyspider；幸运的是，这是一个完全符合上述要求的爬虫，不仅有健全的<a href="http://docs.pyspider.org/en/latest/">英文使用文档</a>，而且作者Binux在<a href="http://blog.binux.me/">博客</a>中也经常回复使用者的疑问。</p>
+
+<p>这里不展开讲在自己本地如何配置pyspider，按照作者提供的方式是能够完全独立搭建的。同时，Binux嗨提供了一个自己搭建的爬虫服务器，能够支持大量网页的抓取与分析，并且集成了IP池：<a href="http://demo.pyspider.org">demo.pyspider.org</a></p>
+
+<p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/64856224.jpg?attname=&e=1437650786&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:BmgjhWkc9wOzTyJzX6zODfcI3Lo" width = "800px"></p>
+
+<p>这个网站的使用步骤如下：<br/>
+1.通过"Create"建立一个Project，例如取名"demo";<br/>
+2.在创建的"Project name"下点击创建的"demo"，病编写相应的抓取代码;<br/>
+3.通过点击"run"按钮进行调试，直到成功抓取到所需网页字段；然后"save"代码;<br/>
+4.定位demo project所在行(如下)，将<strong style="background:orange"><font color="white">TODO</font></strong>改成<strong style="background:green"><font color="white">RUNNING</font></strong>；再在Actions下点击Run按钮；然后修改group为lock，锁定自己的project，防止别人更改；之后就开始抓取了。</p>
+
+<p><img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/18175455.jpg?attname=&e=1437651527&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:fb0glKWPAuY6FjkWAy2g9kIPriU" width="800px"></p>
+
+<p>综上，如果我们使用pyspider作者Binux提供的服务，我们只要学会写抓取代码就行了。</p>
 
 <h1>方法实现</h1>
 
+<p>Pyspider能够很好地支持python编程。例如：我们需要获得<a href="http://www.mogujie.com/">蘑菇街</a>一个页面的信息，如以下的商品页面：<br/>
+<a href="http://www.mogujie.com/book/clothing/18057">http://www.mogujie.com/book/clothing/18057</a><br/>
+<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79436268.jpg?attname=&e=1437652353&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:e4FwAPMEgx2NQ-vZRcKL2kBz5t0" width="800px"></p>
+
+<p>通过chrome的审查元素分析，此商品列表会给出25个默认的商品（包括缩图与描述）；通过鼠标滚轮下滑，可以触发JS进行渲染，能够展现全部200多个商品；因此，我们需要在pyspider的代码里打开图像加载开关，启用phantomjs，以及用JS模仿鼠标滚轮：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cate</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+</span><span class='line'>                           <span class="n">fetch_type</span><span class="o">=</span><span class="s">&#39;js&#39;</span><span class="p">,</span><span class="n">js_script</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">                           function() {</span>
+</span><span class='line'><span class="s">                               function test() {</span>
+</span><span class='line'><span class="s">                                   window.scrollTo(0,document.body.scrollHeight);</span>
+</span><span class='line'><span class="s">                                   window.setTimeout(test,100);</span>
+</span><span class='line'><span class="s">                               }</span>
+</span><span class='line'><span class="s">                               window.setTimeout(test,100);</span>
+</span><span class='line'><span class="s">                           }</span>
+</span><span class='line'><span class="s">                           &quot;&quot;&quot;</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">list_page</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+下面给出抓取每一个商品详情页的pyspider代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'><span class="c"># -*- encoding: utf-8 -*-</span>
+</span><span class='line'><span class="c"># Created on 2015-07-08 01:00:21</span>
+</span><span class='line'><span class="c"># Project: mogujie_v1</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">re</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pyspider.libs.base_handler</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#document.body.scrollHeight</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Handler</span><span class="p">(</span><span class="n">BaseHandler</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">crawl_config</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;18057&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;http://www.mogujie.com/book/clothing/{cate}/{id}/pop?ad=0&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="nd">@every</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">on_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">ls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+</span><span class='line'>                <span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cate</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span><span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+</span><span class='line'>                           <span class="n">fetch_type</span><span class="o">=</span><span class="s">&#39;js&#39;</span><span class="p">,</span><span class="n">js_script</span><span class="o">=</span><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">                           function() {</span>
+</span><span class='line'><span class="s">                               function test() {</span>
+</span><span class='line'><span class="s">                                   window.scrollTo(0,document.body.scrollHeight);</span>
+</span><span class='line'><span class="s">                                   window.setTimeout(test,100);</span>
+</span><span class='line'><span class="s">                               }</span>
+</span><span class='line'><span class="s">                               window.setTimeout(test,100);</span>
+</span><span class='line'><span class="s">                           }</span>
+</span><span class='line'><span class="s">                           &quot;&quot;&quot;</span><span class="p">,</span>
+</span><span class='line'>     <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">list_page</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">list_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;http://www.mogujie.com/detail/\w+&quot;</span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
+</span><span class='line'>                <span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">,</span><span class="n">fetch_type</span><span class="o">=</span><span class="s">&#39;js&#39;</span><span class="p">,</span> <span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail_page</span><span class="p">)</span>
+</span><span class='line'>            <span class="c">#if re.match(&quot;http://&quot;)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">index_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="c">#print each.attr.href</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;http://www.mogujie.com/detail/\w+&quot;</span><span class="p">,</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">):</span>
+</span><span class='line'>                <span class="bp">self</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">href</span><span class="p">,</span><span class="n">load_images</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detail_page</span><span class="p">)</span>
+</span><span class='line'>            <span class="c">#if re.match(&quot;http://&quot;)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@config</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">detail_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">small_dic</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>        <span class="n">preload_dic</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>        <span class="n">price</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">comment_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">sale</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">comment_num</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">fav_num</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">txt</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>        <span class="n">right_dic</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>        <span class="n">stuff</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>        <span class="n">desc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>        <span class="n">price</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;span#J_NowPrice.price-n&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">comment_score</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;li.comment-score&gt;p&gt;span&gt;b.num&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">sale</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;li.sale&gt;p&gt;b.J_SaleNum.num&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">comment_num</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;li.comment-num&gt;p&gt;b.num&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">fav_num</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;span.fav-num&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">desc</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;div.content&gt;div.desc&gt;p.text&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;html &gt; body &gt; div.shop-detail &gt; div.detail-goods.clearfix &gt; div.goods-left &gt; div.goods-box.clearfix &gt; div#J_GoodsImg.goods-img.fl &gt; div.big-img &gt; img#J_BigImg &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="n">txt</span> <span class="o">=</span> <span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">alt</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;div.box &gt; div.list &gt; ul &gt; li &gt; img&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="n">small_dic</span><span class="p">[</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;img.img-pre-lazyload&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="n">preload_dic</span><span class="p">[</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;div#J_ModuleLook.goods-right.ex-module&gt;div.list&gt;div.box&gt;ul&gt;li&gt;a&gt;img&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="n">right_dic</span><span class="p">[</span><span class="n">each</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&quot;div.stuff&gt;table&gt;tbody&gt;tr&gt;td&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class='line'>            <span class="n">stuff</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>            <span class="s">&quot;url&quot;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;title&quot;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">(),</span>
+</span><span class='line'>            <span class="s">&quot;txt&quot;</span><span class="p">:</span> <span class="n">txt</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;desc&quot;</span><span class="p">:</span> <span class="n">desc</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;right_dic&quot;</span><span class="p">:</span> <span class="n">right_dic</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;price&quot;</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;small&quot;</span><span class="p">:</span> <span class="n">small_dic</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;reload&quot;</span><span class="p">:</span> <span class="n">preload_dic</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;comment_score&quot;</span><span class="p">:</span> <span class="n">comment_score</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;sale&quot;</span><span class="p">:</span> <span class="n">sale</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;comment_num&quot;</span><span class="p">:</span> <span class="n">comment_num</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;fav_num&quot;</span><span class="p">:</span> <span class="n">fav_num</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;stuff&quot;</span><span class="p">:</span> <span class="n">stuff</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h1>结果</h1>
+
+<p>在抓取demo页面下，有个Results按钮，点击就能进入下载结果展示页面。最后，可以通过点击"JSON"、"URL-JSON"、"CSV"三个按钮下载所需格式的结果。
+<img src="http://7xkj2g.com1.z0.glb.clouddn.com/15-7-22/79782538.jpg?attname=&e=1437653746&token=RkJjucXoCc243SBGr5TBnrk21S8JcDF718v8ZL-L:YYIEshuELMyXASOm3R3hS04M6CY" width="800px"></p>
 </div>
 
 
@@ -131,10 +368,6 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/07/20/computer-vision/" title="Previous Post: Computer vision">&laquo; Computer vision</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2015/07/20/test/" title="Next Post: test">test &raquo;</a>
       
     </p>
     
@@ -197,23 +430,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/07/21/tmp2/">Tmp2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/21/tmp/">Tmp</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/20/test/">Test</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/07/20/Spider/">利用Pysider抓取电商数据</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/07/20/computer-vision/">Computer Vision</a>
       </li>
     
   </ul>
